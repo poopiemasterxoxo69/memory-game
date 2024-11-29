@@ -6,20 +6,53 @@
     <link rel="stylesheet" href="pokecss.css">
 </head>
 <body>
-    <div class="memory-game">
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png"></div>
-        
+
+    <p id="test"></p>
+
+    <div class="memory-game" id="memoryGame">
+        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png" alt="Kaart"></div>
+
     </div>
+
+    <!-- Knop om een extra kaart toe te voegen -->
+    <button class="knop kaart" onclick="addCard()"></button>
+    <button class="test" onclick="test()">HHDJHJ</button>
+
     <script>
+
+
+        function test() {
+            let getal = 0;
+
+
+for (let i = 0; i < 10; i++) {
+    getal++;
+}
+
+
+document.getElementById("test").innerHTML = "The value of z is: " + getal;
+        };
+        // Beginwaarde van n (aantal kaarten)
+let n = 0;  // Dit is het aantal kaarten dat je hebt (start met 10 kaarten)
+
+document.addEventListener('DOMContentLoaded', function () {
+    function addCard() {
+    
+
+        
+        const memoryGame = document.getElementById('memoryGame');
+        const kaatnieuw = document.createElement('div');
+        newCard.classList.add('speelkaart');
+        newCard.innerHTML = '<img src="imgs/background pokemon-kaart (1).png" alt="Kaart">';
+        memoryGame.appendChild(kaatnieuw);
+        const cards = document.querySelectorAll('.speelkaart');
+
+        
+
+        // Laat de waarde van n zien in de console voor debugging
+        console.log("Aantal kaarten: " + n);
+    }
+});
 
     </script>
 
