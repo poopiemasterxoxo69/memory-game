@@ -1,0 +1,21 @@
+.speelkaart_row1 img { 
+    width: 90%; /* Of een ander percentage of vaste waarde */
+    height: auto; /* Zorgt ervoor dat de verhoudingen behouden blijven */
+    display: block; /* Zorgt ervoor dat ze onder elkaar staan */
+    margin-bottom: 10px; /* Dit bepaalt de ruimte tussen afbeeldingen */
+}
+
+.speelkaart_row2 img {
+    width: 90%; /* Of een ander percentage of vaste waarde */
+    height: auto; /* Zorgt ervoor dat de verhoudingen behouden blijven */
+    display: block; /* Zorgt ervoor dat de afbeeldingen onder elkaar staan */
+    margin-bottom: 10px; /* De marge kan worden aangepast naar wens */
+}
+
+
+.memory-game {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Zorg ervoor dat de div de volledige breedte van de container heeft */
+}
