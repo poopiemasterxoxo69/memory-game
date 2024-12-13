@@ -14,8 +14,36 @@
 
 
 .memory-game {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Zorgt voor een flexibele layout */
+    gap: 10px; /* Ruimte tussen de kaarten */
+    width: 100%;
+    max-width: 800px; /* Maximale breedte van het display */
+    margin: 0 auto; /* Centraal uitlijnen */
+}
+
+.speelkaart {
+    width: 100px; /* Maak de kaarten kleiner */
+    height: 150px; /* Pas de hoogte aan zoals nodig */
+    overflow: hidden; /* Zorg ervoor dat de afbeelding niet uit de kaart steekt */
+    border: 1px solid #ccc; /* Optioneel, voor zichtbare grenzen */
+    border-radius: 8px; /* Optioneel, voor afgeronde hoeken */
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    width: 100%; /* Zorg ervoor dat de div de volledige breedte van de container heeft */
+}
+
+.speelkaart img {
+    width: 100%; /* Zorgt ervoor dat de afbeelding zich aanpast aan de grootte van de kaart */
+    height: auto; /* Behoudt de verhoudingen van de afbeelding */
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+
+p {
+    font-size: 18px;
 }
