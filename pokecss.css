@@ -1,49 +1,78 @@
-.speelkaart_row1 img { 
-    width: 90%; /* Of een ander percentage of vaste waarde */
-    height: auto; /* Zorgt ervoor dat de verhoudingen behouden blijven */
-    display: block; /* Zorgt ervoor dat ze onder elkaar staan */
-    margin-bottom: 10px; /* Dit bepaalt de ruimte tussen afbeeldingen */
-}
-
-.speelkaart_row2 img {
-    width: 90%; /* Of een ander percentage of vaste waarde */
-    height: auto; /* Zorgt ervoor dat de verhoudingen behouden blijven */
-    display: block; /* Zorgt ervoor dat de afbeeldingen onder elkaar staan */
-    margin-bottom: 10px; /* De marge kan worden aangepast naar wens */
-}
-
-
-.memory-game {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Zorgt voor een flexibele layout */
-    gap: 10px; /* Ruimte tussen de kaarten */
-    width: 100%;
-    max-width: 800px; /* Maximale breedte van het display */
-    margin: 0 auto; /* Centraal uitlijnen */
-}
-
-.speelkaart {
-    width: 100px; /* Maak de kaarten kleiner */
-    height: 150px; /* Pas de hoogte aan zoals nodig */
-    overflow: hidden; /* Zorg ervoor dat de afbeelding niet uit de kaart steekt */
-    border: 1px solid #ccc; /* Optioneel, voor zichtbare grenzen */
-    border-radius: 8px; /* Optioneel, voor afgeronde hoeken */
+body {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-}
-
-.speelkaart img {
-    width: 100%; /* Zorgt ervoor dat de afbeelding zich aanpast aan de grootte van de kaart */
-    height: auto; /* Behoudt de verhoudingen van de afbeelding */
-}
-
-button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    font-size: 16px;
+    justify-content: center;
+    margin: 0;
+    height: 100vh;
+    background-color: #f5f5f5;
 }
 
 p {
+    margin-bottom: 20px;
     font-size: 18px;
+}
+
+.memory-game {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* Maximaal 7 kolommen */
+    gap: 5px; /* Minder ruimte tussen kaarten */
+    justify-content: center; /* Horizontaal centreren */
+    align-content: center; /* Verticaal centreren */
+    padding: 10px;
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+}
+
+.speelkaart {
+    width: 100px;
+    height: 140px;
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.speelkaart img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.knop {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.knop:hover {
+    background-color: #0056b3;
+}
+
+.memory-game.small-cards .speelkaart {
+    width: 60px;
+    height: 84px;
+}
+
+.photo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#photo {
+    width: 500px; /* Initial big size */
+    transition: width 1s ease-in-out;
+}
+
+.small {
+    width: 150px; /* Final small size */
 }

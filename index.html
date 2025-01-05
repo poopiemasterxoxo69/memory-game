@@ -4,88 +4,73 @@
     <title>Vierkantjes Maken</title>
     <link rel="stylesheet" href="pokecss.css">
     <style>
-        /* Voeg CSS toe om de kaarten kleiner te maken en een grid-indeling te creëren */
-        .memory-game {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); /* Zorgt voor een flexibele layout */
-            gap: 10px; /* Ruimte tussen de kaarten */
-            width: 100%;
-            max-width: 800px; /* Maximale breedte van het display */
-            margin: 0 auto; /* Centraal uitlijnen */
-        }
-
-        .speelkaart {
-            width: 100px; /* Maak de kaarten kleiner */
-            height: 150px; /* Pas de hoogte aan zoals nodig */
-            overflow: hidden; /* Zorg ervoor dat de afbeelding niet uit de kaart steekt */
-            border: 1px solid #ccc; /* Optioneel, voor zichtbare grenzen */
-            border-radius: 8px; /* Optioneel, voor afgeronde hoeken */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .speelkaart img {
-            width: 100%; /* Zorgt ervoor dat de afbeelding zich aanpast aan de grootte van de kaart */
-            height: auto; /* Behoudt de verhoudingen van de afbeelding */
-        }
-
-        button {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-        }
-
-        p {
-            font-size: 18px;
-        }
     </style>
 </head>
 <body>
 
+    <div class="photo-container">
+        <img id="photo" src="imgs/background pokemon-kaart (1).png" alt="Photo">
+    </div>
+    <button id="animateButton">Animate Photo</button>
+
+
     <p id="test">Aantal kaarten: 1</p>
 
-    <div class="memory-game" id="memoryGame">
-        <div class="speelkaart"> <img src="imgs/background pokemon-kaart (1).png" alt="Kaart"></div>
-    </div>
+<div class="memory-game" id="memoryGame">
+    <div class="speelkaart"><img src="imgs/background pokemon-kaart (1).png" alt="Kaart"></div>
+</div>
 
-    <!-- Knop om een extra kaart toe te voegen -->
-    <button class="knop kaart" onclick="addCard()">Voeg Kaart Toe</button>
-    <button class="test" onclick="test()">HHDJHJ</button>
+<!-- Knoppen om kaarten toe te voegen -->
+<button class="knop kaart" onclick="makkelijk()">Makkelijk</button>
+<button class="knop kaart" onclick="normaal()">Normaal</button>
+<button class="knop kaart" onclick="moeilijk()">Moeilijk</button>
+<button class="knop kaart" onclick="extreem_moeilijk()">Extreem Moeilijk</button>
 
     <script>
-        let getal = 1; // Begin met 1 omdat er al 1 kaart in de memory-game staat
-        let memoryGame = document.getElementById("memoryGame");
-        let testP = document.getElementById("test");
+ let getal = 1; // Begin met 1 omdat er al 1 kaart in de memory-game staat
+let memoryGame = document.getElementById("memoryGame");
+let testP = document.getElementById("test");
 
-        // Variabele om bij te houden of er al 6 kaarten zijn toegevoegd
-        let zesToegevoegd = false;
+function makkelijk() {
+    voegKaartenToe(20);
+}
 
-        // Functie om een kaart toe te voegen
-        function addCard() {
-            // Aantal kaarten te voegen (6 de eerste keer, daarna 7)
-            let aantalKaarten = zesToegevoegd ? 7 : 6;
+function normaal() {
+    voegKaartenToe(27);
+}
 
-            // Voeg kaarten toe
-            for (let i = 0; i < aantalKaarten; i++) {
-                let newCard = document.createElement("div");
-                newCard.classList.add("speelkaart");
-                newCard.innerHTML = '<img src="imgs/background pokemon-kaart (1).png" alt="Kaart">';
-                memoryGame.appendChild(newCard);
-            }
+function moeilijk() {
+    voegKaartenToe(34);
+}
 
-            // Verhoog het aantal kaarten
-            getal += aantalKaarten;
-            testP.textContent = "Aantal kaarten: " + getal;
+function extreem_moeilijk() {
+    voegKaartenToe(48);
 
-            // Zet zesToegevoegd op true na de eerste keer
-            zesToegevoegd = true;
-        }
+    // Maak de kaarten kleiner door een klasse aan de container toe te voegen
+    memoryGame.classList.add("small-cards");
+}
 
-        // Functie die 1 keer wordt uitgevoerd bij het klikken van de testknop
-        function test() {
-            console.log(getal);
-        }
+function voegKaartenToe(aantalKaarten) {
+    for (let i = 0; i < aantalKaarten; i++) {
+        let newCard = document.createElement("div");
+        newCard.classList.add("speelkaart");
+        newCard.innerHTML = '<img src="imgs/background pokemon-kaart (1).png" alt="Kaart">';
+        memoryGame.appendChild(newCard);
+    }
+
+    // Verhoog het aantal kaarten
+    getal += aantalKaarten;
+    testP.textContent = "Aantal kaarten: " + getal;
+}
+
+document.getElementById('animateButton').addEventListener('click', function() {
+    const photo = document.getElementById('photo');
+    photo.classList.toggle('small');
+});
+
+        
+
+        
     </script>
 
 </body>
