@@ -26,14 +26,12 @@ p {
 }
 
 .speelkaart {
-    width: 100px;
-    height: 140px;
-    border: 2px solid black;
+    width: 150px;
+    height: 190px;
+    border: none;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
 .speelkaart img {
@@ -41,24 +39,53 @@ p {
     max-height: 100%;
 }
 
-.knop {
-    margin: 10px;
-    padding: 10px 20px;
-    font-size: 16px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.button-container {
+    display: flex; /* Flexbox zorgt ervoor dat de knoppen horizontaal naast elkaar worden geplaatst */
+    gap: 10px; /* Ruimte tussen de knoppen */
+    justify-content: flex-start; /* Zorgt ervoor dat de knoppen aan de linkerkant van de container staan */
+    position: absolute; /* Absolute positionering om de knoppen in de linker bovenhoek te plaatsen */
+    top: 20px; /* Ruimte vanaf de bovenkant van de container */
+    left: 20px; /* Ruimte vanaf de linkerkant van de container */
+    width: 10px;
+    
 }
 
-.knop:hover {
-    background-color: #0056b3;
+.spel_knop:hover {
+
+    cursor: pointer;
+    filter: brightness(85%); /* Maakt de achtergrondkleur 15% donkerder */
+
+}
+
+.spel_knop.makkelijk {
+    background-color: #7CB650;
+    border: none;
+}
+
+.spel_knop.normaal {
+    background-color: #f9af27;
+    border: none;
+}
+
+
+.spel_knop.moeilijk {
+    background-color:  #d11315;
+    border: none;
+}
+
+.spel_knop.extreem-moeilijk {
+    background-color: purple;
+    border: none;
+}
+
+.spel_knop.andergraad {
+    background-color: grey;
+    border: none;
 }
 
 .memory-game.small-cards .speelkaart {
-    width: 60px;
-    height: 84px;
+    width: 90px;
+    height: 110px;
 }
 
 .photo-container {

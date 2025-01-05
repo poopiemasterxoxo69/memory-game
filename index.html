@@ -8,11 +8,6 @@
 </head>
 <body>
 
-    <div class="photo-container">
-        <img id="photo" src="imgs/background pokemon-kaart (1).png" alt="Photo">
-    </div>
-    <button id="animateButton">Animate Photo</button>
-
 
     <p id="test">Aantal kaarten: 1</p>
 
@@ -21,52 +16,90 @@
 </div>
 
 <!-- Knoppen om kaarten toe te voegen -->
-<button class="knop kaart" onclick="makkelijk()">Makkelijk</button>
-<button class="knop kaart" onclick="normaal()">Normaal</button>
-<button class="knop kaart" onclick="moeilijk()">Moeilijk</button>
-<button class="knop kaart" onclick="extreem_moeilijk()">Extreem Moeilijk</button>
-
+<div class="button-container">
+    <button class="spel_knop makkelijk" onclick="makkelijk()">Makkelijk</button>
+    <button class="spel_knop normaal" onclick="normaal()">Normaal</button>
+    <button class="spel_knop moeilijk" onclick="moeilijk()">Moeilijk</button>
+    <button class="spel_knop extreem-moeilijk" onclick="extreem_moeilijk()">Extreem Moeilijk</button>
+    <button class="spel_knop andergraad" onclick="andergraad()">Andere moeilijkheidsgraad</button>
+</div>
     <script>
- let getal = 1; // Begin met 1 omdat er al 1 kaart in de memory-game staat
+let getal = 1; // Begin met 1 omdat er al 1 kaart in de memory-game staat
 let memoryGame = document.getElementById("memoryGame");
 let testP = document.getElementById("test");
+let graadgekozen = false
+let aantal_nieuwe_kaarten = 0
 
 function makkelijk() {
-    voegKaartenToe(20);
+    if (graadgekozen === false) {
+        aantal_nieuwe_kaarten = 20;
+        voegKaartenToe(aantal_nieuwe_kaarten);
+        return graadgekozen = true
+    }
+    
 }
 
 function normaal() {
-    voegKaartenToe(27);
+    if (graadgekozen === false) {
+        aantal_nieuwe_kaarten = 27;
+        voegKaartenToe(aantal_nieuwe_kaarten);
+        return graadgekozen = true
+    }
 }
 
 function moeilijk() {
-    voegKaartenToe(34);
+    if (graadgekozen === false) {
+        aantal_nieuwe_kaarten = 34;
+        voegKaartenToe(aantal_nieuwe_kaarten);
+        memoryGame.classList.add("small-cards");
+        return graadgekozen = true
+    }
 }
 
 function extreem_moeilijk() {
-    voegKaartenToe(48);
 
-    // Maak de kaarten kleiner door een klasse aan de container toe te voegen
-    memoryGame.classList.add("small-cards");
+    if (graadgekozen === false) {
+        aantal_nieuwe_kaarten = 48;
+        voegKaartenToe(aantal_nieuwe_kaarten);
+        memoryGame.classList.add("small-cards");
+        return graadgekozen = true
+    }
 }
 
 function voegKaartenToe(aantalKaarten) {
-    for (let i = 0; i < aantalKaarten; i++) {
-        let newCard = document.createElement("div");
-        newCard.classList.add("speelkaart");
-        newCard.innerHTML = '<img src="imgs/background pokemon-kaart (1).png" alt="Kaart">';
-        memoryGame.appendChild(newCard);
+    if (aantalKaarten > 0) {
+        // Voeg kaarten toe als het aantal positief is
+        for (let i = 0; i < aantalKaarten; i++) {
+            let newCard = document.createElement("div");
+            newCard.classList.add("speelkaart");
+            newCard.innerHTML = '<img src="imgs/background pokemon-kaart (1).png" alt="Kaart">';
+            memoryGame.appendChild(newCard);
+        }
+    } else if (aantalKaarten < 0) {
+        // Verwijder kaarten als het aantal negatief is
+        const kaartenTeVerwijderen = Math.abs(aantalKaarten);  // Maak het aantal positief
+        const kaarten = document.querySelectorAll('.speelkaart');
+        for (let i = 0; i < kaartenTeVerwijderen && kaarten.length > 0; i++) {
+            kaarten[i].remove();  // Verwijder de eerste kaart
+        }
     }
 
-    // Verhoog het aantal kaarten
+    // Verhoog of verlaag het aantal kaarten
     getal += aantalKaarten;
     testP.textContent = "Aantal kaarten: " + getal;
 }
 
-document.getElementById('animateButton').addEventListener('click', function() {
-    const photo = document.getElementById('photo');
-    photo.classList.toggle('small');
-});
+
+function andergraad() {
+    if (graadgekozen === true) {
+        graadgekozen = false;  // Zet graadgekozen op false
+        voegKaartenToe(-aantal_nieuwe_kaarten);  // Verwijder het aantal kaarten
+        memoryGame.classList.remove("small-cards");  // Verwijder de kleine-kaarten klasse om de grootte van de kaarten te herstellen
+    }
+}
+
+
+
 
         
 
