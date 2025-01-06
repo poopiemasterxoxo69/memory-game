@@ -15,7 +15,7 @@ p {
 
 .memory-game {
     display: grid;
-    grid-template-columns: repeat(7, 1fr); /* Maximaal 7 kolommen */
+    grid-template-columns: repeat(8, 1fr); /* Maximaal 7 kolommen */
     gap: 5px; /* Minder ruimte tussen kaarten */
     justify-content: center; /* Horizontaal centreren */
     align-content: center; /* Verticaal centreren */

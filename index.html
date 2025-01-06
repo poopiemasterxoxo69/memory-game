@@ -10,6 +10,7 @@
 
 
     <p id="test">Aantal kaarten: 1</p>
+    <img src="imgs/pokemon_1.png">
 
 <div class="memory-game" id="memoryGame">
     <div class="speelkaart"><img src="imgs/background pokemon-kaart (1).png" alt="Kaart"></div>
@@ -32,7 +33,7 @@ let aantal_nieuwe_kaarten = 0
 
 function makkelijk() {
     if (graadgekozen === false) {
-        aantal_nieuwe_kaarten = 20;
+        aantal_nieuwe_kaarten = 23;
         voegKaartenToe(aantal_nieuwe_kaarten);
         return graadgekozen = true
     }
@@ -41,7 +42,7 @@ function makkelijk() {
 
 function normaal() {
     if (graadgekozen === false) {
-        aantal_nieuwe_kaarten = 27;
+        aantal_nieuwe_kaarten = 31;
         voegKaartenToe(aantal_nieuwe_kaarten);
         return graadgekozen = true
     }
@@ -49,7 +50,7 @@ function normaal() {
 
 function moeilijk() {
     if (graadgekozen === false) {
-        aantal_nieuwe_kaarten = 34;
+        aantal_nieuwe_kaarten = 39;
         voegKaartenToe(aantal_nieuwe_kaarten);
         memoryGame.classList.add("small-cards");
         return graadgekozen = true
@@ -59,7 +60,7 @@ function moeilijk() {
 function extreem_moeilijk() {
 
     if (graadgekozen === false) {
-        aantal_nieuwe_kaarten = 48;
+        aantal_nieuwe_kaarten = 47;
         voegKaartenToe(aantal_nieuwe_kaarten);
         memoryGame.classList.add("small-cards");
         return graadgekozen = true
