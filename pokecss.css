@@ -84,22 +84,13 @@ p {
 }
 
 .memory-game.small-cards .speelkaart {
-    width: 90px;
-    height: 110px;
+    width: 130px;
+    height: 120px;
 }
 
-.photo-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+#eerste_kaart {
+    display: none;
 }
 
-#photo {
-    width: 500px; /* Initial big size */
-    transition: width 1s ease-in-out;
-}
 
-.small {
-    width: 150px; /* Final small size */
-}
+

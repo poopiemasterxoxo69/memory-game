@@ -9,11 +9,11 @@
 <body>
 
 
-    <p id="test">Aantal kaarten: 1</p>
+    <p id="test">Aantal kaarten: 0</p>
     
 
 <div class="memory-game" id="memoryGame">
-    <div class="speelkaart"><img src="imgs/background pokemon-kaart (1).png" alt="Kaart"></div>
+    <div class="speelkaart"><img id="eerste_kaart" src="imgs/background pokemon-kaart (1).png" alt="Kaart"></div>
 </div>
 
 <!-- Knoppen om kaarten toe te voegen -->
@@ -23,20 +23,23 @@
     <button class="spel_knop moeilijk" onclick="moeilijk()">Moeilijk</button>
     <button class="spel_knop extreem-moeilijk" onclick="extreem_moeilijk()">Extreem Moeilijk</button>
     <button class="spel_knop andergraad" onclick="andergraad()">Andere moeilijkheidsgraad</button>
-</div>
+    <button class="spel_knop andergraad" onclick="laat_eerste_kaart_zien()">ygyg</button>
     <script>
 let getal = 1; // Begin met 1 omdat er al 1 kaart in de memory-game staat
 let memoryGame = document.getElementById("memoryGame");
 let testP = document.getElementById("test");
 let graadgekozen = false
 let aantal_nieuwe_kaarten = 0
+let eerste_kaart_mag = false
 
 function makkelijk() {
     if (graadgekozen === false) {
         aantal_nieuwe_kaarten = 23;
         voegKaartenToe(aantal_nieuwe_kaarten);
-        return graadgekozen = true
-    }
+         graadgekozen = true
+         eerste_kaart_mag = true
+        laat_eerste_kaart_zien()
+    }  
     
 }
 
@@ -44,7 +47,9 @@ function normaal() {
     if (graadgekozen === false) {
         aantal_nieuwe_kaarten = 31;
         voegKaartenToe(aantal_nieuwe_kaarten);
-        return graadgekozen = true
+        graadgekozen = true
+        eerste_kaart_mag = true
+        laat_eerste_kaart_zien()
     }
 }
 
@@ -53,17 +58,21 @@ function moeilijk() {
         aantal_nieuwe_kaarten = 39;
         voegKaartenToe(aantal_nieuwe_kaarten);
         memoryGame.classList.add("small-cards");
-        return graadgekozen = true
+        graadgekozen = true
+        eerste_kaart_mag = true
+        laat_eerste_kaart_zien()
     }
 }
 
 function extreem_moeilijk() {
-
     if (graadgekozen === false) {
         aantal_nieuwe_kaarten = 47;
         voegKaartenToe(aantal_nieuwe_kaarten);
         memoryGame.classList.add("small-cards");
-        return graadgekozen = true
+        graadgekozen = true
+        eerste_kaart_mag = true
+        laat_eerste_kaart_zien()
+        
     }
 }
 
@@ -75,6 +84,7 @@ function voegKaartenToe(aantalKaarten) {
             newCard.classList.add("speelkaart");
             newCard.innerHTML = '<img src="imgs/background pokemon-kaart (1).png" alt="Kaart">';
             memoryGame.appendChild(newCard);
+            
         }
     } else if (aantalKaarten < 0) {
         // Verwijder kaarten als het aantal negatief is
@@ -83,8 +93,11 @@ function voegKaartenToe(aantalKaarten) {
         for (let i = 0; i < kaartenTeVerwijderen && kaarten.length > 0; i++) {
             kaarten[i].remove();  // Verwijder de eerste kaart
         }
-    }
+       
 
+    }
+    
+    
     // Verhoog of verlaag het aantal kaarten
     getal += aantalKaarten;
     testP.textContent = "Aantal kaarten: " + getal;
@@ -95,7 +108,26 @@ function andergraad() {
     if (graadgekozen === true) {
         graadgekozen = false;  // Zet graadgekozen op false
         voegKaartenToe(-aantal_nieuwe_kaarten);  // Verwijder het aantal kaarten
-        memoryGame.classList.remove("small-cards");  // Verwijder de kleine-kaarten klasse om de grootte van de kaarten te herstellen
+        memoryGame.classList.remove("small-cards");  // Verwijder de kleine-kaarten klasse
+    }
+    eerste_kaart_mag = false;  // Zet eerste_kaart_mag op false
+   
+}
+
+
+function laat_eerste_kaart_zien() {
+    const eersteKaart = document.getElementById("eerste_kaart");
+    if (!eersteKaart) {
+        console.error("Element met id 'eerste_kaart' is niet gevonden.");
+        return;
+    }
+
+    if (eerste_kaart_mag === true) {
+        eersteKaart.style.display = "block";  // Toon de kaart
+        console.log("Eerste kaart zichtbaar gemaakt.");
+    } else {
+        eersteKaart.style.display = "none";  // Verberg de kaart
+        console.log("Eerste kaart verborgen.");
     }
 }
 
