@@ -1,20 +1,16 @@
 <!DOCTYPE html>
 <html lang="nl">
 <head>
-    <title>Vierkantjes Maken</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
     <link rel="stylesheet" href="pokecss.css">
-    <style>
-    </style>
 </head>
 <body>
 
+<p id="test">Aantal kaarten: 0</p>
 
-    <p id="test">Aantal kaarten: 0</p>
-    
-
-<div class="memory-game" id="memoryGame">
-    <div class="speelkaart"><img id="eerste_kaart" src="imgs/background pokemon-kaart (1).png" alt="Kaart"></div>
-</div>
+<div class="memory-game" id="memoryGame"></div>
 
 <!-- Knoppen om kaarten toe te voegen -->
 <div class="button-container">
@@ -23,121 +19,136 @@
     <button class="spel_knop moeilijk" onclick="moeilijk()">Moeilijk</button>
     <button class="spel_knop extreem-moeilijk" onclick="extreem_moeilijk()">Extreem Moeilijk</button>
     <button class="spel_knop andergraad" onclick="andergraad()">Andere moeilijkheidsgraad</button>
-    <button class="spel_knop andergraad" onclick="laat_eerste_kaart_zien()">ygyg</button>
-    <script>
-let getal = 1; // Begin met 1 omdat er al 1 kaart in de memory-game staat
+</div>
+
+<script>
+let getal = 0;
 let memoryGame = document.getElementById("memoryGame");
 let testP = document.getElementById("test");
-let graadgekozen = false
-let aantal_nieuwe_kaarten = 0
-let eerste_kaart_mag = false
+let graadgekozen = false;
+let aantal_nieuwe_kaarten = 0;
+let openCards = []; // Bewaar de open kaarten om te vergelijken
+let matchedCards = []; // Bewaar de kaarten die al gematcht zijn
 
 function makkelijk() {
-    if (graadgekozen === false) {
-        aantal_nieuwe_kaarten = 23;
+    if (!graadgekozen) {
+        aantal_nieuwe_kaarten = 24;
+        graadgekozen = true;
         voegKaartenToe(aantal_nieuwe_kaarten);
-         graadgekozen = true
-         eerste_kaart_mag = true
-        laat_eerste_kaart_zien()
-    }  
-    
+        memoryGame.classList.remove("small-cards"); // Verwijder de kleine kaarten klasse
+    }
 }
 
 function normaal() {
-    if (graadgekozen === false) {
-        aantal_nieuwe_kaarten = 31;
+    if (!graadgekozen) {
+        aantal_nieuwe_kaarten = 32;
+        graadgekozen = true;
         voegKaartenToe(aantal_nieuwe_kaarten);
-        graadgekozen = true
-        eerste_kaart_mag = true
-        laat_eerste_kaart_zien()
+        memoryGame.classList.remove("small-cards"); // Verwijder de kleine kaarten klasse
     }
 }
 
 function moeilijk() {
-    if (graadgekozen === false) {
-        aantal_nieuwe_kaarten = 39;
+    if (!graadgekozen) {
+        aantal_nieuwe_kaarten = 40;
+        graadgekozen = true;
         voegKaartenToe(aantal_nieuwe_kaarten);
-        memoryGame.classList.add("small-cards");
-        graadgekozen = true
-        eerste_kaart_mag = true
-        laat_eerste_kaart_zien()
+        memoryGame.classList.add("small-cards"); // Voeg de kleine kaarten klasse toe
     }
 }
 
 function extreem_moeilijk() {
-    if (graadgekozen === false) {
-        aantal_nieuwe_kaarten = 47;
+    if (!graadgekozen) {
+        aantal_nieuwe_kaarten = 48;
+        graadgekozen = true;
         voegKaartenToe(aantal_nieuwe_kaarten);
-        memoryGame.classList.add("small-cards");
-        graadgekozen = true
-        eerste_kaart_mag = true
-        laat_eerste_kaart_zien()
-        
+        memoryGame.classList.add("small-cards"); // Voeg de kleine kaarten klasse toe
     }
 }
 
 function voegKaartenToe(aantalKaarten) {
-    if (aantalKaarten > 0) {
-        // Voeg kaarten toe als het aantal positief is
-        for (let i = 0; i < aantalKaarten; i++) {
-            let newCard = document.createElement("div");
-            newCard.classList.add("speelkaart");
-            newCard.innerHTML = '<img src="imgs/background pokemon-kaart (1).png" alt="Kaart">';
-            memoryGame.appendChild(newCard);
-            
-        }
-    } else if (aantalKaarten < 0) {
-        // Verwijder kaarten als het aantal negatief is
-        const kaartenTeVerwijderen = Math.abs(aantalKaarten);  // Maak het aantal positief
+    // Verwijder bestaande kaarten als graad al gekozen was
+    if (graadgekozen) {
         const kaarten = document.querySelectorAll('.speelkaart');
-        for (let i = 0; i < kaartenTeVerwijderen && kaarten.length > 0; i++) {
-            kaarten[i].remove();  // Verwijder de eerste kaart
-        }
-       
-
+        kaarten.forEach(kaart => kaart.remove());
+        getal = 0; // Reset aantal kaarten
+        matchedCards = []; // Reset de gematchte kaarten
     }
-    
-    
-    // Verhoog of verlaag het aantal kaarten
+
+    // Maak een lijst van getallen voor de kaarten
+    let numbers = [];
+    for (let i = 1; i <= aantalKaarten / 2; i++) {
+        numbers.push(i, i); // Elk nummer komt twee keer voor
+    }
+
+    // Schud de nummers
+    numbers = shuffle(numbers);
+
+    // Voeg nieuwe kaarten toe
+    for (let i = 0; i < aantalKaarten; i++) {
+        let newCard = document.createElement("div");
+        newCard.classList.add("speelkaart");
+        newCard.dataset.number = numbers[i]; // Zet het nummer op de data attribuut van de kaart
+
+        // Voeg het kaart-inner element toe met de afbeelding van de Pokémon aan de voorkant
+        newCard.innerHTML = `
+            <div class="kaart-inner">
+                <div class="kaart-achterkant"></div>
+                <div class="kaart-voorkant" style="background-image: url('imgs/pokemon_kaart_${numbers[i]}.png');"></div>
+            </div>
+        `;
+        newCard.addEventListener('click', flipCard);
+        memoryGame.appendChild(newCard);
+    }
+
     getal += aantalKaarten;
     testP.textContent = "Aantal kaarten: " + getal;
 }
 
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]]; // Swap
+    }
+    return array;
+}
+
+function flipCard() {
+    if (openCards.length < 2 && !this.classList.contains("open") && !matchedCards.includes(this)) {
+        this.classList.add("open");
+        openCards.push(this);
+
+        if (openCards.length === 2) {
+            // Vergelijk de twee open kaarten
+            setTimeout(function() {
+                if (openCards[0].dataset.number === openCards[1].dataset.number) {
+                    matchedCards.push(openCards[0], openCards[1]); // Voeg de gematchte kaarten toe
+                } else {
+                    openCards[0].classList.remove("open");
+                    openCards[1].classList.remove("open");
+                }
+                openCards = []; // Reset open kaarten
+            }, 1000); // 1 seconde wachten voor het omdraaien van kaarten
+        }
+    }
+}
 
 function andergraad() {
-    if (graadgekozen === true) {
-        graadgekozen = false;  // Zet graadgekozen op false
-        voegKaartenToe(-aantal_nieuwe_kaarten);  // Verwijder het aantal kaarten
-        memoryGame.classList.remove("small-cards");  // Verwijder de kleine-kaarten klasse
-    }
-    eerste_kaart_mag = false;  // Zet eerste_kaart_mag op false
-   
-}
-
-
-function laat_eerste_kaart_zien() {
-    const eersteKaart = document.getElementById("eerste_kaart");
-    if (!eersteKaart) {
-        console.error("Element met id 'eerste_kaart' is niet gevonden.");
-        return;
-    }
-
-    if (eerste_kaart_mag === true) {
-        eersteKaart.style.display = "block";  // Toon de kaart
-        console.log("Eerste kaart zichtbaar gemaakt.");
-    } else {
-        eersteKaart.style.display = "none";  // Verberg de kaart
-        console.log("Eerste kaart verborgen.");
+    if (graadgekozen) {
+        graadgekozen = false; // Zet graadgekozen op false
+        const kaarten = document.querySelectorAll('.speelkaart');
+        kaarten.forEach(kaart => kaart.remove()); // Verwijder alle kaarten
+        memoryGame.classList.remove("small-cards"); // Verwijder styling voor kleine kaarten
+        getal = 0; // Reset het aantal kaarten
+        testP.textContent = "Aantal kaarten: " + getal;
     }
 }
 
 
 
 
-        
 
-        
-    </script>
+</script>
 
 </body>
 </html>

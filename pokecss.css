@@ -13,10 +13,11 @@ p {
     font-size: 18px;
 }
 
+/* Standaard geheugenkaart instellingen */
 .memory-game {
     display: grid;
-    grid-template-columns: repeat(8, 1fr); /* Maximaal 7 kolommen */
-    gap: 5px; /* Minder ruimte tussen kaarten */
+    grid-template-columns: repeat(8, 1fr); /* Maximaal 8 kolommen */
+    gap: 5px; /* Ruimte tussen kaarten */
     justify-content: center; /* Horizontaal centreren */
     align-content: center; /* Verticaal centreren */
     padding: 10px;
@@ -25,6 +26,7 @@ p {
     border-radius: 10px;
 }
 
+/* Kaarten van normale grootte */
 .speelkaart {
     width: 150px;
     height: 190px;
@@ -34,10 +36,71 @@ p {
     justify-content: center;
 }
 
-.speelkaart img {
-    max-width: 100%;
-    max-height: 100%;
+.speelkaart .kaart-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
+
+.speelkaart .kaart-achterkant,
+.speelkaart .kaart-voorkant {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    transition: transform 0.6s;
+}
+
+.speelkaart .kaart-achterkant {
+    background-image: url('imgs/background pokemon-kaart (1).png');
+    background-size: cover;
+    background-position: center;
+    transform: rotateY(0deg);
+}
+
+.speelkaart .kaart-voorkant {
+    background-size: cover;
+    background-position: center;
+    transform: rotateY(180deg);
+}
+
+.speelkaart.open .kaart-achterkant {
+    transform: rotateY(180deg);
+}
+
+.speelkaart.open .kaart-voorkant {
+    transform: rotateY(0deg);
+}
+
+/* Kleine kaarten voor moeilijk en extreem moeilijk */
+.memory-game.small-cards {
+    grid-template-columns: repeat(8, 1fr); /* Zet 8 kolommen */
+    gap: 10px; /* Ruimere ruimte tussen kaarten */
+}
+
+.speelkaart.small-card {
+    width: 100px;
+    height: 130px;
+}
+
+.speelkaart.small-card .kaart-achterkant,
+.speelkaart.small-card .kaart-voorkant {
+    background-size: cover;
+    background-position: center;
+}
+
+.speelkaart.small-card .kaart-voorkant {
+    transform: rotateY(180deg);
+}
+
+.speelkaart.small-card.open .kaart-achterkant {
+    transform: rotateY(180deg);
+}
+
+.speelkaart.small-card.open .kaart-voorkant {
+    transform: rotateY(0deg);
+}
+
 
 .button-container {
     display: flex; /* Flexbox zorgt ervoor dat de knoppen horizontaal naast elkaar worden geplaatst */
@@ -46,15 +109,11 @@ p {
     position: absolute; /* Absolute positionering om de knoppen in de linker bovenhoek te plaatsen */
     top: 20px; /* Ruimte vanaf de bovenkant van de container */
     left: 20px; /* Ruimte vanaf de linkerkant van de container */
-    width: 10px;
-    
 }
 
 .spel_knop:hover {
-
     cursor: pointer;
     filter: brightness(85%); /* Maakt de achtergrondkleur 15% donkerder */
-
 }
 
 .spel_knop.makkelijk {
@@ -66,7 +125,6 @@ p {
     background-color: #f9af27;
     border: none;
 }
-
 
 .spel_knop.moeilijk {
     background-color:  #d11315;
@@ -84,13 +142,14 @@ p {
 }
 
 .memory-game.small-cards .speelkaart {
-    width: 130px;
-    height: 120px;
+    width: 120px;
+    height: 160px;
 }
 
 #eerste_kaart {
     display: none;
 }
 
-
-
+#testing {
+    display: none;
+}
