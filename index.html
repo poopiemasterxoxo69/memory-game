@@ -10,7 +10,7 @@
 
 <p id="test">Aantal kaarten: 0</p>
 <p id="score_toner"></p>
-<p id="timer">Tijd: 0s</p>
+<p id="timer"></p>
 
 <div class="memory-game" id="memoryGame"></div>
 
@@ -20,7 +20,7 @@
     <button class="spel_knop normaal" onclick="normaal()">Normaal</button>
     <button class="spel_knop moeilijk" onclick="moeilijk()">Moeilijk</button>
     <button class="spel_knop extreem-moeilijk" onclick="extreem_moeilijk()">Extreem Moeilijk</button>
-    <button class="spel_knop andergraad" onclick="andergraad()">Andere moeilijkheidsgraad</button>
+    <button id="andergraad_knop" onclick="andergraad()">Andere moeilijkheidsgraad</button>
 </div>
 
 <script>
@@ -29,168 +29,220 @@
     let testP = document.getElementById("test");
     let score_toner = document.getElementById("score_toner");
     let timerDisplay = document.getElementById("timer");
-    
     let graadgekozen = false;
     let aantal_nieuwe_kaarten = 0;
-    let openCards = [];
-    let matchedCards = [];
+    let openKaarten = [];
+    let gematchteKaarten = [];
     let score = 0;
-    let timer_aangaan = false;
+    let timerAangaan = false;
     let timer = 0;
     let timerInterval;
-    
-    function startTimer() {
-        if (timer_aangaan) {
-            timerDisplay.textContent = `Tijd: ${timer.toFixed(1)}s`; // Toon beginnende tijdxzcxc
-            timerInterval = setInterval(function () {
-                if (timer > 0) {
-                    timer -= 0.1; // Verlaag de timer met 0,1 seconde
-                    timerDisplay.textContent = `Tijd: ${timer.toFixed(1)}s`; // Werk de timer bij
-                } else {
-                    clearInterval(timerInterval); // Stop de timer als deze 0 bereikt
-                    alert("Tijd is op! Probeer opnieuw."); // Actie bij timer einde
-                }
-            }, 100); // Update elke 100ms (0,1s)
-        }
-    }
-    
-    function resetTimer() {
-    stopTimer(); // Stop de huidige timer
-    if (graadgekozen) {
-        if (aantal_nieuwe_kaarten === 40) {
-            timer = 7.5; // Moeilijk starttijd
-        } else if (aantal_nieuwe_kaarten === 48) {
-            timer = 4.5; // Extreem Moeilijk starttijd
-        }
-        startTimer(); // Start de timer opnieuw
-    }
-}
+    let timerGestopt = false;
 
+    function schakelKnoppenIn() {
+        const knoppen = document.querySelectorAll('.spel_knop');
+        knoppen.forEach(knop => {
+            knop.classList.remove('disabled');
+            knop.disabled = false;
+        });
+
+        memoryGame.style.display = "none";
+    
+        // Verberg de timer
+        const timerElement = document.getElementById("timer");
+        if (timerElement) {
+            timerElement.style.display = "none";
+        }
+
+        // Reset de score
+        score = 0;
+        werkScoreBij(); 
+    }
+
+    function startTimer() {
+        if (!timerAangaan) return; // Zorg ervoor dat de timer niet opnieuw begint
+
+        timerDisplay.textContent = `Tijd: ${timer.toFixed(1)}s`; 
+        timerInterval = setInterval(function () {
+            if (timer > 0) {
+                timer -= 0.1; 
+                timerDisplay.textContent = `Tijd: ${timer.toFixed(1)}s`;
+            }  else {
+                clearInterval(timerInterval); 
+                alert("Tijd is op! Probeer opnieuw.");
+                graadgekozen = false;
+                schakelKnoppenIn(); 
+            }
+        }, 100); 
+    }
+
+    function resetTimer() {
+        clearInterval(timerInterval); 
+        timerGestopt = false;
+        timer = aantal_nieuwe_kaarten === 40 ? 7.5 : (aantal_nieuwe_kaarten === 48 ? 4.5 : 0);  
+        startTimer(); 
+    }
 
     function stopTimer() {
-        clearInterval(timerInterval);
-        timer_aangaan = false;
+        clearInterval(timerInterval); 
+        timerAangaan = false;
+        timerGestopt = true; 
+
+        const timerElement = document.getElementById("timer");
+        if (timerElement) {
+            timerElement.style.display = "none";
+        }
+
+        score = 0;
+        score_toner.textContent = score + " paartje(s) gevonden"; 
     }
-    
-    // Spelkeuzes
+
+    function schakelKnoppenUit() {
+        const knoppen = document.querySelectorAll('.spel_knop');
+        knoppen.forEach(knop => {
+            knop.classList.add('disabled'); 
+            knop.disabled = true;
+        });
+    }
+
     function makkelijk() {
-        if (!graadgekozen) {
+        if (graadgekozen === false) {
             aantal_nieuwe_kaarten = 24;
             graadgekozen = true;
+            memoryGame.style.display = "grid";
             voegKaartenToe(aantal_nieuwe_kaarten);
             memoryGame.classList.remove("small-cards");
+            resetTimer(); 
+            schakelKnoppenUit(); 
         }
     }
-    
+
     function normaal() {
-        if (!graadgekozen) {
+        if (graadgekozen === false) {
             aantal_nieuwe_kaarten = 32;
             graadgekozen = true;
+            memoryGame.style.display = "grid";
             voegKaartenToe(aantal_nieuwe_kaarten);
             memoryGame.classList.remove("small-cards");
+            resetTimer(); 
+            schakelKnoppenUit(); 
         }
     }
-    
+
     function moeilijk() {
-        if (!graadgekozen) {
+        if (graadgekozen === false) {
             aantal_nieuwe_kaarten = 40;
             graadgekozen = true;
-            timer_aangaan = true;
-            timer = 7.5; // Starttijd voor moeilijk
+            timerAangaan = true;
+            timer = 7.5; 
+            memoryGame.style.display = "grid";
             voegKaartenToe(aantal_nieuwe_kaarten);
             memoryGame.classList.add("small-cards");
-            startTimer();
+            resetTimer(); 
+            schakelKnoppenUit(); 
+            const timerElement = document.getElementById("timer");
+        if (timerElement) {
+            timerElement.style.display = "block";
+        }
         }
     }
-    
+
     function extreem_moeilijk() {
-        if (!graadgekozen) {
+        if (graadgekozen === false) {
             aantal_nieuwe_kaarten = 48;
             graadgekozen = true;
-            timer_aangaan = true;
-            timer = 4.5; // Starttijd voor extreem moeilijk
+            timerAangaan = true;
+            timer = 4.5; 
+            memoryGame.style.display = "grid";
             voegKaartenToe(aantal_nieuwe_kaarten);
             memoryGame.classList.add("small-cards");
-            startTimer();
+            resetTimer(); 
+            schakelKnoppenUit();
+            const timerElement = document.getElementById("timer"); 
+            if (timerElement) {
+            timerElement.style.display = "block";
         }
-    }
+        }
+        }
     
+
     function voegKaartenToe(aantalKaarten) {
         if (graadgekozen) {
             const kaarten = document.querySelectorAll('.speelkaart');
             kaarten.forEach(kaart => kaart.remove());
             getal = 0;
-            matchedCards = [];
+            gematchteKaarten = [];
         }
     
-        let numbers = [];
+        let nummers = [];
         for (let i = 1; i <= aantalKaarten / 2; i++) {
-            numbers.push(i, i);
+            nummers.push(i, i);
         }
     
-        numbers = shuffle(numbers);
+        nummers = schud(nummers);
     
         for (let i = 0; i < aantalKaarten; i++) {
-            let newCard = document.createElement("div");
-            newCard.classList.add("speelkaart");
-            newCard.dataset.number = numbers[i];
+            let nieuweKaart = document.createElement("div");
+            nieuweKaart.classList.add("speelkaart");
+            nieuweKaart.dataset.number = nummers[i];
     
-            newCard.innerHTML = `
+            nieuweKaart.innerHTML = `
                 <div class="kaart-inner">
                     <div class="kaart-achterkant"></div>
-                    <div class="kaart-voorkant" style="background-image: url('imgs/pokemon_kaart_${numbers[i]}.png');"></div>
+                    <div class="kaart-voorkant" style="background-image: url('imgs/pokemon_kaart_${nummers[i]}.png');"></div>
                 </div>
             `;
-            newCard.addEventListener('click', flipCard);
-            memoryGame.appendChild(newCard);
+            nieuweKaart.addEventListener('click', flipCard);
+            memoryGame.appendChild(nieuweKaart);
         }
     
         getal += aantalKaarten;
         testP.textContent = "Aantal kaarten: " + getal;
-    
-        if (timer_aangaan) {
-            startTimer();
-        }
     }
-    
-    function shuffle(array) {
+
+    function schud(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
         }
         return array;
     }
-    
-    function flipCard() {
-    if (openCards.length < 2 && !this.classList.contains("open") && !matchedCards.includes(this)) {
-        this.classList.add("open");
-        openCards.push(this);
 
-        // Reset de timer bij elke klik
-        resetTimer();
-
-        if (openCards.length === 2) {
-            setTimeout(function () {
-                if (openCards[0].dataset.number === openCards[1].dataset.number) {
-                    matchedCards.push(openCards[0], openCards[1]);
-                    score++;
-                    score_toner.textContent = score + " paartje(s) gevonden";
-                } else {
-                    openCards[0].classList.remove("open");
-                    openCards[1].classList.remove("open");
-                }
-                openCards = [];
-
-                if (matchedCards.length === getal) {
-                    stopTimer();
-                    alert("Gefeliciteerd! Je hebt gewonnen in " + timer.toFixed(1) + " seconden!");
-                }
-            }, 750);
+    function werkScoreBij() {
+        score_toner.textContent = score + " paartje(s) gevonden";
+        if (score > 0) {
+            score_toner.style.display = "block"; 
+        } else {
+            score_toner.style.display = "none"; 
         }
     }
-}
 
-    
+    function flipCard() {
+        if (openKaarten.length < 2 && !this.classList.contains("open") && !gematchteKaarten.includes(this)) {
+            this.classList.add("open");
+            openKaarten.push(this);
+
+            if (openKaarten.length === 2) {
+                setTimeout(function () {
+                    if (openKaarten[0].dataset.number === openKaarten[1].dataset.number) {
+                        gematchteKaarten.push(openKaarten[0], openKaarten[1]);
+                        score++;
+                        werkScoreBij(); 
+                    } else {
+                        openKaarten[0].classList.remove("open");
+                        openKaarten[1].classList.remove("open");
+                    }
+                    openKaarten = [];
+
+                    if (gematchteKaarten.length === getal) {
+                        stopTimer();
+                        alert("Gefeliciteerd! Je hebt gewonnen in " + timer.toFixed(1) + " seconden!");
+                    }
+                }, 750);
+            }
+        }
+    }
+
     function andergraad() {
         if (graadgekozen) {
             graadgekozen = false;
@@ -199,11 +251,15 @@
             memoryGame.classList.remove("small-cards");
             getal = 0;
             testP.textContent = "Aantal kaarten: " + getal;
-            stopTimer();
+
+            score = 0;
+            score_toner.textContent = score + " paartje(s) gevonden"; 
+            stopTimer(); 
+
+            schakelKnoppenIn(); 
         }
     }
-    </script>
-    
+</script>
 
 </body>
 </html>

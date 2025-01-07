@@ -13,20 +13,18 @@ p {
     font-size: 18px;
 }
 
-/* Standaard geheugenkaart instellingen */
 .memory-game {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr); /* Maximaal 8 kolommen */
-    gap: 5px; /* Ruimte tussen kaarten */
-    justify-content: center; /* Horizontaal centreren */
-    align-content: center; /* Verticaal centreren */
+    display: none;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 5px;
+    justify-content: center;
+    align-content: center;
     padding: 10px;
     background-color: rgba(255, 255, 255, 0);
     border: 2px solid #ccccccbb;
     border-radius: 10px;
 }
 
-/* Kaarten van normale grootte */
 .speelkaart {
     width: 140px;
     height: 180px;
@@ -72,11 +70,9 @@ p {
     transform: rotateY(0deg);
 }
 
-/* Kleine kaarten voor moeilijk en extreem moeilijk */
-/* Kleine kaarten voor moeilijk en extreem moeilijk */
 .memory-game.small-cards .speelkaart {
-    width: 100px;  /* Verkorte breedte */
-    height: 130px; /* Verkorte hoogte */
+    width: 100px;
+    height: 120px;
 }
 
 .speelkaart .kaart-achterkant,
@@ -95,8 +91,6 @@ p {
     height: 100%;
 }
 
-
-
 .speelkaart.small-card .kaart-voorkant {
     transform: rotateY(180deg);
 }
@@ -109,19 +103,28 @@ p {
     transform: rotateY(0deg);
 }
 
-
 .button-container {
-    display: flex; /* Flexbox zorgt ervoor dat de knoppen horizontaal naast elkaar worden geplaatst */
-    gap: 10px; /* Ruimte tussen de knoppen */
-    justify-content: flex-start; /* Zorgt ervoor dat de knoppen aan de linkerkant van de container staan */
-    position: absolute; /* Absolute positionering om de knoppen in de linker bovenhoek te plaatsen */
-    top: 20px; /* Ruimte vanaf de bovenkant van de container */
-    left: 20px; /* Ruimte vanaf de linkerkant van de container */
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: flex-start;
+    position: absolute;
+    top: 5%;
+    left: 1%;
+    font-size: 1.5rem;
+}
+
+.spel_knop {
+    width: 100%;
+    height: 50px;
+    font-size: 1.5rem;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .spel_knop:hover {
     cursor: pointer;
-    filter: brightness(85%); /* Maakt de achtergrondkleur 15% donkerder */
+    filter: brightness(85%);
 }
 
 .spel_knop.makkelijk {
@@ -135,7 +138,7 @@ p {
 }
 
 .spel_knop.moeilijk {
-    background-color:  #d11315;
+    background-color: #d11315;
     border: none;
 }
 
@@ -144,9 +147,21 @@ p {
     border: none;
 }
 
-.spel_knop.andergraad {
+.spel_knop.disabled {
     background-color: grey;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+#andergraad_knop {
+    background-color: rgb(255, 0, 149);
     border: none;
+    width: 100%;
+    height: 50px;
+    font-size: 1.5rem;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .memory-game.small-cards .speelkaart {
@@ -159,5 +174,24 @@ p {
 }
 
 #testing {
+    display: none;
+}
+
+#timer {
+    display: block;
+    position: absolute;
+    top: 40%;
+    left: 1%;
+    font-size: 500%;
+    font-weight: bolder;
+}
+
+#score_toner {
+    display: none;
+    font-weight: bolder;
+    font-size: 200%;
+}
+
+#test {
     display: none;
 }
