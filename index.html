@@ -1,8 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memory Game</title>
     <link rel="stylesheet" href="pokecss.css">
 </head>
@@ -60,8 +57,7 @@
     }
 
     function startTimer() {
-        if (!timerAangaan) return; 
-
+        if (timerAangaan === false) return; 
         timerDisplay.textContent = `Tijd: ${timer.toFixed(1)}s`; 
         timerInterval = setInterval(function () {
             if (timer > 0) {
@@ -87,12 +83,10 @@
         clearInterval(timerInterval); 
         timerAangaan = false;
         timerGestopt = true; 
-
         const timerElement = document.getElementById("timer");
         if (timerElement) {
             timerElement.style.display = "none";
         }
-
         score = 0;
         score_toner.textContent = score + " paartje(s) gevonden"; 
     }
@@ -113,7 +107,7 @@
             voegKaartenToe(aantal_nieuwe_kaarten);
             memoryGame.classList.remove("small-cards");
             resetTimer(); 
-            schakelKnoppenUit(); 
+            schakelKnoppenUit()
         }
     }
 
@@ -169,6 +163,7 @@ function extreem_moeilijk() {
         const timerElement = document.getElementById("timer");
         if (timerElement) {
             timerElement.style.display = "block";
+
         }
     }
 }
@@ -185,7 +180,6 @@ function extreem_moeilijk() {
         for (let i = 1; i <= aantalKaarten / 2; i++) {
             nummers.push(i, i);
         }
-
         nummers = schud(nummers);
 
         for (let i = 0; i < aantalKaarten; i++) {
@@ -202,7 +196,6 @@ function extreem_moeilijk() {
             nieuweKaart.addEventListener('click', flipCard);
             memoryGame.appendChild(nieuweKaart);
         }
-
         getal += aantalKaarten;
         testP.textContent = "Aantal kaarten: " + getal;
     }
@@ -223,7 +216,6 @@ function extreem_moeilijk() {
         score_toner.textContent = score + " paartje(s) gevonden";
         score_toner.style.display = "block"; 
     }
-
     if(score_laten_zien === true) {
         score_toner.style.display = "none"; 
     }
@@ -235,6 +227,7 @@ function extreem_moeilijk() {
         this.classList.add("open");
         openKaarten.push(this);
         resetTimer()
+        werkScoreBij()
 
         if (openKaarten.length === 2) {
             setTimeout(function () {
@@ -268,12 +261,9 @@ function extreem_moeilijk() {
             memoryGame.classList.remove("small-cards");
             getal = 0;
             testP.textContent = "Aantal kaarten: " + getal;
-
             score = 0;
-
             score_toner.textContent = score + " paartje(s) gevonden"; 
             stopTimer(); 
-
             schakelKnoppenIn(); 
             score_laten_zien = true;
             werkScoreBij()
